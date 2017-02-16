@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="kubus_tekening" size="1.000000 0.821888" />
+    <ImageTarget name="kubus_jpg" size="1.000000 0.821888" />
     <ImageTarget name="test" size="1.000000 1.777778" />
     <ImageTarget name="general" size="3.000000 5.333333" />
   </Tracking>
