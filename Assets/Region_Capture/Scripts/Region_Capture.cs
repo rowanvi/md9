@@ -307,7 +307,7 @@ public class Region_Capture : MonoBehaviour
         if (ColorDebugMode)
         {
             m_renderer.material.SetInt("_KR", 0);
-            m_renderer.material.SetInt("_KG", 1);
+            m_renderer.material.SetInt("_KG", 0);
         }
     }
 
