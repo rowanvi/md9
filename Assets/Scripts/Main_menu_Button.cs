@@ -6,8 +6,13 @@ using UnityEngine.SceneManagement;
 public class Main_menu_Button : MonoBehaviour {
 
 	// Use this for initialization
-	public void ScanClick () {
-        SceneManager.LoadScene("Vuforia_Test");
+	public void ScanMenu () {
+        SceneManager.LoadScene("Scan_Screen");
+    }
+
+    public void ScanBack()
+    {
+        SceneManager.LoadScene("Main_Menu");
     }
 
 
