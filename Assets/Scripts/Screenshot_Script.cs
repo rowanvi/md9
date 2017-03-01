@@ -1,39 +1,49 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Screenshot_Script : MonoBehaviour {
-    public string screenshotName;
-    private bool takingPicture = false;
 
-    // Use this for initialization
-    public void Screenshot () {
-        if (!takingPicture)
+    [SerializeField]
+    private Region_Capture regionCapture;
+
+    [SerializeField]
+    private Renderer regionCaptureColor;
+
+    [SerializeField]
+    private RenderTextureCamera rtc;
+    
+    [HideInInspector]
+    private bool scanned = false;
+
+    void Start()
+    {
+        regionCapture.OnFocusedTarget += MakeScreenshot;
+    }
+
+    private void MakeScreenshot()
+    {
+        if (!scanned)
         {
-            StartCoroutine(BeforePicture());
-            takingPicture = true;
-            //screenshotName = "Screenshot_ " + System.DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ".png";
-            //Application.CaptureScreenshot(screenshotName);
-                
-            StartCoroutine(AfterPicture());         
-            takingPicture = false;
-
-            
-         }
+            Camera.main.cullingMask = ~(0);
+            StartCoroutine(Scan());
+            scanned = true;
+        }
     }
 
-    IEnumerator AfterPicture()
-    {
-        yield return new WaitForEndOfFrame();
-        // ~(0) Reset it to render every layer
-        Camera.main.cullingMask = ~(0);
-    }
+    private IEnumerator Scan()
+{
 
-    IEnumerator BeforePicture()
-    {
-        Camera.main.cullingMask = ~(1 << 9);
-        yield return new WaitForEndOfFrame();
-        
-    }
+    yield return new WaitForSeconds(3);
+    yield return new WaitForEndOfFrame();
+
+        regionCaptureColor.material.SetInt("_KG", 0);
+        rtc.MakeScreen();
+
+}
+
+
+
 
 }

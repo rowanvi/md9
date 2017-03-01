@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.WSA;
 using Vuforia;
 
 #if UNITY_EDITOR
@@ -26,6 +27,8 @@ public class Region_Capture : MonoBehaviour
     [HideInInspector]
     public bool MarkerIsOUT, MarkerIsIN;
 
+
+
     private bool Is_Child_ImageTarget, reverse_matrix;
 	private float tmp00_init, tmp01_init, tmp02_init, tmp00_updt, tmp01_updt, tmp02_updt;
 	private int frame_num;
@@ -33,13 +36,14 @@ public class Region_Capture : MonoBehaviour
 	public static float CPH,CPW,vuforia_ios_magic;
 	private TrackableBehaviour mTrackableBehaviour;
 
-    private bool scanned = false;
-    private GameObject cube;
-    private GetTexture getTex;
+    public Action OnFocusedTarget;
+   
+    
 
     private void Start()
     {
-		mTrackableBehaviour = ImageTarget.GetComponent<Vuforia.TrackableBehaviour>();
+
+        mTrackableBehaviour = ImageTarget.GetComponent<Vuforia.TrackableBehaviour>();
 
         if (!m_renderer) m_renderer = GetComponent<Renderer>();
         AR_Camera_Vector = GameObject.Find("AR Camera Vector");
@@ -116,8 +120,7 @@ public class Region_Capture : MonoBehaviour
 		if (SystemInfo.deviceModel.Contains ("iPad5,3") || SystemInfo.deviceModel.Contains ("iPad5,4"))
 			reverse_matrix = true;
 
-        cube = GameObject.FindGameObjectWithTag("Cube");
-        getTex = cube.GetComponent<GetTexture>();
+
     }
 
 
@@ -294,7 +297,6 @@ public class Region_Capture : MonoBehaviour
     private void MarkerOutOfBounds()
     {
         // Add action here if marker out of bounds
-
         Debug.Log("Marker out of bounds!");
 
         if (ColorDebugMode)
@@ -306,39 +308,20 @@ public class Region_Capture : MonoBehaviour
 
     private void MarkerIsReturned()
     {
-        // Add action here if marker is visible again
-
         Debug.Log("Marker is returned!");
-
         if (ColorDebugMode)
         {
             m_renderer.material.SetInt("_KR", 0);
-            m_renderer.material.SetInt("_KG", 0);
+            m_renderer.material.SetInt("_KG", 1);
         }
-        
-        if (!scanned)
+        // Add action here if marker is in bound
+        if (OnFocusedTarget != null)
         {
-            StartCoroutine(Wait());
-            var rtc = GetComponent<RenderTextureCamera>();
-            
-            rtc.MakeScreen();
-
-            scanned = true;
-            StartCoroutine(AfterPicture());
+            OnFocusedTarget();
         }
-    }
+       
 
-    IEnumerator AfterPicture()
-    {
-        yield return new WaitForEndOfFrame();
-        // ~(0) Reset it to render every layer
-        Camera.main.cullingMask = ~(0);
-        getTex.FreezeEnable = true;
-    }
 
-    private IEnumerator Wait()
-    {
-        yield return new WaitForSecondsRealtime(2);
     }
 
     private IEnumerator Start_Initialize()
