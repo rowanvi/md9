@@ -6,31 +6,20 @@ using UnityEngine.UI;
 
 public class TouchScript : MonoBehaviour {
 
-    private bool takingPicture = false;
-    public LayerMask layermask;
-    public string screenshotName;
-    bool[] test = new bool[32];
+    public bool touched;
 
-    void Start()
-    {
-    }
-    //On only 1 finger it takes a screenshot
+    //On only 1 finger it works.
     void Update()
     {
 
-        if (Input.touchCount == 1 && !takingPicture)
+        if (Input.touchCount == 1)
         {
             Touch touch = Input.GetTouch(0);
-            takingPicture = true;
-
-      
-
-            screenshotName = "Screenshot_ " + System.DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ".png";
-            Application.CaptureScreenshot(screenshotName);
-
-            // ~(0) Reset it to render every layer
-            Camera.current.cullingMask = ~(0);
-            takingPicture = false;
+            touched = true;
+        }
+        else
+        {
+            touched = false;
         }
 
     }

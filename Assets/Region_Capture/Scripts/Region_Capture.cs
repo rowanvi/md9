@@ -33,6 +33,10 @@ public class Region_Capture : MonoBehaviour
 	public static float CPH,CPW,vuforia_ios_magic;
 	private TrackableBehaviour mTrackableBehaviour;
 
+    private bool scanned = false;
+    private GameObject cube;
+    private GetTexture getTex;
+
     private void Start()
     {
 		mTrackableBehaviour = ImageTarget.GetComponent<Vuforia.TrackableBehaviour>();
@@ -112,6 +116,8 @@ public class Region_Capture : MonoBehaviour
 		if (SystemInfo.deviceModel.Contains ("iPad5,3") || SystemInfo.deviceModel.Contains ("iPad5,4"))
 			reverse_matrix = true;
 
+        cube = GameObject.FindGameObjectWithTag("Cube");
+        getTex = cube.GetComponent<GetTexture>();
     }
 
 
@@ -309,6 +315,30 @@ public class Region_Capture : MonoBehaviour
             m_renderer.material.SetInt("_KR", 0);
             m_renderer.material.SetInt("_KG", 0);
         }
+        
+        if (!scanned)
+        {
+            StartCoroutine(Wait());
+            var rtc = GetComponent<RenderTextureCamera>();
+            
+            rtc.MakeScreen();
+
+            scanned = true;
+            StartCoroutine(AfterPicture());
+        }
+    }
+
+    IEnumerator AfterPicture()
+    {
+        yield return new WaitForEndOfFrame();
+        // ~(0) Reset it to render every layer
+        Camera.main.cullingMask = ~(0);
+        getTex.FreezeEnable = true;
+    }
+
+    private IEnumerator Wait()
+    {
+        yield return new WaitForSecondsRealtime(2);
     }
 
     private IEnumerator Start_Initialize()
