@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.WSA;
 using Vuforia;
 
 #if UNITY_EDITOR
