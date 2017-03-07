@@ -26,7 +26,7 @@ public class Screenshot_Script : MonoBehaviour {
     {
         if (!scanned)
         {
-            Camera.main.cullingMask = ~(0);
+            Camera.main.cullingMask = ~(1 << 9);
             StartCoroutine(Scan());
             scanned = true;
         }
@@ -40,8 +40,8 @@ public class Screenshot_Script : MonoBehaviour {
 
         regionCaptureColor.material.SetInt("_KG", 0);
         rtc.MakeScreen();
-
-}
+        Camera.main.cullingMask = ~(0);
+    }
 
 
 
