@@ -10,9 +10,14 @@ public class Main_menu_Button : MonoBehaviour {
         SceneManager.LoadScene("Scan_Screen");
     }
 
-    public void ScanBack()
+    public void MainMenu()
     {
         SceneManager.LoadScene("Main_Menu");
+    }
+
+    public void LoadMenu()
+    {
+        SceneManager.LoadScene("Preview_Screen");
     }
 
 
