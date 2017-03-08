@@ -1,10 +1,13 @@
 fileFormatVersion: 2
 guid: 86786673325bd5e4a80cfc5aa31f433d
-timeCreated: 1445176645
-licenseType: Pro
+timeCreated: 1488882352
+licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - ARCamera: {instanceID: 0}
+  - ImageTarget: {instanceID: 0}
+  - BackgroundPlane: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
