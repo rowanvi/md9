@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using UnityEngine.SceneManagement;
 
-public class Screenshot_Script : MonoBehaviour {
+public class Image_Save : MonoBehaviour {
+
 
     [SerializeField]
     private Region_Capture regionCapture;
@@ -17,6 +19,8 @@ public class Screenshot_Script : MonoBehaviour {
     
     [HideInInspector]
     private bool scanned = false;
+    [HideInInspector]
+    private int id = 0;
 
     public String fileName;
 
@@ -35,8 +39,9 @@ public class Screenshot_Script : MonoBehaviour {
             {
                 Camera.main.cullingMask = ~(1 << 9);
                 StartCoroutine(Scan());
+            regionCapture.ColorDebugMode = false;
 
-                scanned = true;
+            scanned = true;
 
             }
         
@@ -60,17 +65,20 @@ public class Screenshot_Script : MonoBehaviour {
     private IEnumerator Save()
     {
         yield return new WaitForEndOfFrame();
-        Save_And_Load sal = new Save_And_Load();
+        Image_Object sal = new Image_Object();
+        listImage li = new listImage();
         sal.fileLocation = rtc.test;
         sal.coloringPictureCategory = 1;
-        sal.coloringPictureName = "test2";
-        sal.date = "7-3-2017";
-        string json = JsonUtility.ToJson(sal);
-
+        sal.coloringPictureName = "testnieuwenaam";
+        sal.date = System.DateTime.Now.ToString("dd-MM-yyyy");
+        li.addImageObject(sal);
+        
         string path = Application.persistentDataPath + "/json/screens.json";
-        File.AppendAllText(path, json);
-
-        Debug.Log(json);
+        PlayerPrefs.SetString("screensList", JsonUtility.ToJson(li));
+        PlayerPrefs.Save();
+        Debug.Log(PlayerPrefs.GetString("screensList"));
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene("Preview_Screen");
 
     }
 

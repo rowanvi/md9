@@ -26,7 +26,6 @@ public class RenderTextureCamera : MonoBehaviour
 	private GameObject DebugGUITexture;
 	private RenderTexture CameraOutputTexture;
     public string test;
-    public string test2;
 
     public RenderTexture GetRenderTexture()
     {
@@ -185,15 +184,10 @@ public class RenderTextureCamera : MonoBehaviour
 		#endif
     }
 
-    public string getTest()
-    {
-        return test;
-    }
 
     private string saveImg(byte[] imgPng)
     {
         string fileName = screensPath + "/screen_" + System.DateTime.Now.ToString("dd_MM_HH_mm_ss") + ".png";
-        test2 = screensPath;
         test = fileName;
         Debug.Log("write to " + fileName);
         System.IO.File.WriteAllBytes(fileName, imgPng);
