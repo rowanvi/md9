@@ -16,37 +16,54 @@ public class Image_Save : MonoBehaviour {
 
     [SerializeField]
     private RenderTextureCamera rtc;
-    
+
+
     //Other necessary variables.
     [HideInInspector]
+    private bool conditionMarker = false;
     private bool scanned = false;
     [HideInInspector]
     private int id = 0;
 
-    public String fileName;
 
     //On start it set the action OnFocusTarget assigned to the method makeScreenshot
     void Start()
     {
-        regionCapture.OnFocusedTarget += MakeScreenshot;
-  
+
+       regionCapture.OnFocusedTarget += imageInBound;
+       regionCapture.OutFocusedTarget += imageOutOfBound;
     }
 
+    void imageInBound()
+    {
+        Debug.Log("INBOUDASHDJASHDJA");
+        conditionMarker = true;
+    }
+
+    void imageOutOfBound()
+    {
+        Debug.Log("OUTBOUNDSHITASSSSS");
+        conditionMarker = false;
+    }
 
     //Make screen checks if it is already scanned. It also calls the scan method.
-    private void MakeScreenshot()
+    public void MakeScreenshot()
     {
-        
+        if(conditionMarker == true)
+        {
             if (!scanned)
             {
                 Camera.main.cullingMask = ~(1 << 9);
                 StartCoroutine(Scan());
-            regionCapture.ColorDebugMode = false;
+                regionCapture.ColorDebugMode = false;
 
-            scanned = true;
-
+                scanned = true;
             }
-        
+        }else
+        {
+            Debug.Log("KAN GEEN FOTO MAKEN DOEI");
+        }
+       
     }
 
 
@@ -59,7 +76,7 @@ public class Image_Save : MonoBehaviour {
         regionCaptureColor.material.SetInt("_KG", 0);
         regionCaptureColor.material.SetInt("_KR", 0);
         //Makescreen method
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         rtc.MakeScreen();
         yield return new WaitForEndOfFrame();
         //Save method

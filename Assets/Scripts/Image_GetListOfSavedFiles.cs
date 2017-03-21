@@ -8,9 +8,9 @@ public class Image_GetListOfSavedFiles : MonoBehaviour
 {
 
     //Initialization of variables
-    private string url;
     public GameObject ListItemPrefab;
     public GameObject ContentPanel;
+    private WWW www;
 
     void Start()
     {
@@ -36,11 +36,13 @@ public class Image_GetListOfSavedFiles : MonoBehaviour
             GameObject newSaveLoad = Instantiate(ListItemPrefab) as GameObject;
             ListButton controller = newSaveLoad.GetComponent<ListButton>();
             controller.nameLabel.text = data.loadList[i].coloringPictureName;
+            StartCoroutine(test(SaveDataManager.Instance.GetTextureLoadUrlFromName(controller.nameLabel.text)));
+            controller.iconImage.texture = www.texture;
 
             newSaveLoad.transform.parent = ContentPanel.transform;
             newSaveLoad.transform.localScale = Vector3.one;
 
-            
+
 
         }
 
@@ -48,6 +50,16 @@ public class Image_GetListOfSavedFiles : MonoBehaviour
 
 
     }
+    IEnumerator test(string url)
+    {
+        www = new WWW(url);
+        yield return www;
+        Debug.Log(www.texture);
+        
+
+    }
+
+
     
 
 
