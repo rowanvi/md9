@@ -35,7 +35,7 @@ public class Region_Capture : MonoBehaviour
 	public static float CPH,CPW,vuforia_ios_magic;
 	private TrackableBehaviour mTrackableBehaviour;
 
-    public Action OnFocusedTarget, OutFocusedTarget;
+    public Action OnFocusedTarget;
    
     
 
@@ -302,11 +302,6 @@ public class Region_Capture : MonoBehaviour
         {
             m_renderer.material.SetInt("_KR", 1);
             m_renderer.material.SetInt("_KG", 0);
-        }
-
-        if(OutFocusedTarget != null)
-        {
-            OutFocusedTarget();
         }
     }
 
