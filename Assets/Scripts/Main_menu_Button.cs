@@ -20,5 +20,9 @@ public class Main_menu_Button : MonoBehaviour {
         SceneManager.LoadScene("Preview_Screen");
     }
 
+    public void LoadScreen()
+    {
+        SceneManager.LoadScene("test_for_list");
+    }
 
 }

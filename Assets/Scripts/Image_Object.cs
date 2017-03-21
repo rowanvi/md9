@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//Scanned object initialization.
 [Serializable]
 public class Image_Object {
 
@@ -11,6 +13,8 @@ public class Image_Object {
     public string date;
     public int coloringPictureCategory;
 }
+
+//List of scanned object initialization and add function.
 [Serializable]
 public class listImage
 {   

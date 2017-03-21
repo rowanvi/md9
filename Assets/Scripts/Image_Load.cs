@@ -1,58 +1,52 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 
 public class Image_Load : MonoBehaviour {
-    private Image_Object load;
-    private string url;
-    // Use this for initialization
 
-    void Start()
+    //Initialization of variables
+    public GameObject ListItemPrefab;
+    public GameObject ContentPanel;
+
+
+    public Action<Texture> OnTextureLoaded;
+
+    private string loadUrl;
+
+
+    //Load the texture on the mapping
+    IEnumerator loadTexture(string url)
     {
-        doesTextureExcist("testnieuwenaam");
-    }
-    public void doesTextureExcist(string name)
-    {
-            
-
-        string path = Application.persistentDataPath + "/json/screens.json";
-        string jsonData = PlayerPrefs.GetString("screensList");
-        Debug.Log("jsonData:"+jsonData);
-        listImage data;
-        if (string.IsNullOrEmpty(jsonData))
-        {
-            data = new listImage();
-        }
-        else data = JsonUtility.FromJson<listImage>(jsonData);
-
-        for (int i = 0; i < data.loadList.Count; i++)
-        {
-            Debug.Log(data.loadList[i]);
-            if (name.Equals(data.loadList[i].coloringPictureName))
-            {
-  
-                url =  "file://" + data.loadList[i].fileLocation;
-                StartCoroutine(loadTexture());
-                
-            }
-        }
-        
-        
-    }
-
-    IEnumerator loadTexture()
-    {
-
+        //Creates new file url and return the texture of it and render it on the object.
+        Debug.Log("www");
+        Debug.Log(url);
         WWW www = new WWW(url);
         yield return www;
         Debug.Log(www.texture);
-        Renderer renderer = GetComponent<Renderer>();
-        Renderer.FindObjectOfType<MeshRenderer>().material.mainTexture = www.texture;
-
+        OnTextureLoaded(www.texture);
+        Destroy(this.gameObject);
     }
-        
+
+    public void LoadTexture(string url)
+    {
+        StartCoroutine(loadTexture(url));
+    }
+
+    void Start()
+    {
+        LoadTexture(loadUrl);
+    }
+
+    public static Image_Load CreateImageLoader(string url)
+    {
+        GameObject ga = new GameObject("Image loader:" + url);
+        Image_Load imgLoad = ga.AddComponent<Image_Load>();
+        imgLoad.loadUrl = url;
+        return imgLoad;
+    }
 
 
     
