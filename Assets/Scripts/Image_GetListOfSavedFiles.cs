@@ -40,7 +40,8 @@ public class Image_GetListOfSavedFiles : MonoBehaviour
             controller.iconImage.texture = www.texture;
 
             newSaveLoad.transform.parent = ContentPanel.transform;
-            newSaveLoad.transform.localScale = Vector3.one;
+            newSaveLoad.transform.localScale = Vector3.up;
+         
 
 
 

@@ -36,13 +36,13 @@ public class Image_Save : MonoBehaviour {
 
     void imageInBound()
     {
-        Debug.Log("INBOUDASHDJASHDJA");
+        Debug.Log("Coloring picture detected");
         conditionMarker = true;
     }
 
     void imageOutOfBound()
     {
-        Debug.Log("OUTBOUNDSHITASSSSS");
+        Debug.Log("Can't detect coloring picture");
         conditionMarker = false;
     }
 
@@ -61,7 +61,7 @@ public class Image_Save : MonoBehaviour {
             }
         }else
         {
-            Debug.Log("KAN GEEN FOTO MAKEN DOEI");
+            Debug.Log("Can't make a save because you out of bound");
         }
        
     }
@@ -96,7 +96,7 @@ public class Image_Save : MonoBehaviour {
       
         sal.fileLocation = rtc.test;
         sal.coloringPictureCategory = 1;
-        sal.coloringPictureName = System.DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
+        sal.coloringPictureName = System.DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss");
 
         sal.date = System.DateTime.Now.ToString("dd-MM-yyyy");
         string jsonData = PlayerPrefs.GetString("screensList");
